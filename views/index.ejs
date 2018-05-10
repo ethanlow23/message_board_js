@@ -1,0 +1,40 @@
+<html>
+    <head></head>
+    <meta charset="UTF-8">
+    <body>
+        <h3>The Dojo Message Board</h3>
+        <%- JSON.stringify(messages) %>
+        <% if(messages.messages_error) { %>
+            <% for(var e of messages.messages_error) { %>
+                <p style='color: red'><%= e %></p>
+            <% } %>
+        <% } %>
+        <% if(messages.comments) { %>
+            <% for(var e of messages.comments) { %>
+                <p style='color: red'><%= e %></p>
+            <% } %>
+        <% } %>
+        <form action='/messages' method='post'>
+            <p>Name:</p>
+            <input type='text' name='name'>
+            <p>Message:</p>
+            <textarea name='message'></textarea>
+            <input type='submit' value='Post Message'>
+        </form>
+        <% for(var i=0; i<all_messages.length; i++) { %>
+            <h4>Name: <%= all_messages[i].name %></h4>
+            <h4>Message: <%= all_messages[i].message %></h4>
+            <% for(var x=0; x<all_messages[i].comments.length; x++){ %>
+                    <p>Name: <%= all_messages[i].comments[x].name %></p>
+                    <p>Comment: <%= all_messages[i].comments[x].comment %></p>
+            <% } %>
+            <form action='/messages/<%= all_messages[i]._id %>/comments' method='post'>
+                <p>Name:</p>
+                <input type='text' name='name'>
+                <p>Comment:</p>
+                <textarea name='comment'></textarea>
+                <input type='submit' value='Post Comment'>
+            </form>
+        <% } %>
+    </body>
+</html>
